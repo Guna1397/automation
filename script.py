@@ -3,13 +3,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+
 
 
 def startBot():
-    path = "E:\\User2\\chromedriver-win64\\chromedriver"
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(path , options=chrome_options)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get("https://pro-man.onrender.com/")
     driver.maximize_window()
     driver.find_element(By.XPATH, "//input[@type='text']").send_keys("one")
