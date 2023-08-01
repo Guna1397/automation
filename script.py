@@ -7,7 +7,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 def startBot():
     path = "E:\\User2\\chromedriver-win64\\chromedriver"
-    driver = webdriver.Chrome(path)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(path , options=chrome_options)
     driver.get("https://pro-man.onrender.com/")
     driver.maximize_window()
     driver.find_element(By.XPATH, "//input[@type='text']").send_keys("one")
@@ -15,7 +17,7 @@ def startBot():
     driver.find_element(By.XPATH, "//button[@type='button']").click()
     print("Successfully logged in")
     # time.sleep(10)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
     login = wait.until(expected_conditions.visibility_of_element_located((By.XPATH, "//div[2]/button")))
     login.click()
     time.sleep(5)
