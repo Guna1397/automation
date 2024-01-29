@@ -1,0 +1,107 @@
+{
+	"resourceType": "Bundle",
+	"identifier": [
+		{
+			"type": {
+				"text": "DocSpera Bundle ID",
+				"coding": [
+					{
+						"code": "DSBID",
+						"display": "DocSpera Bundle ID"
+					}
+				]
+			},
+			"value": "7d6a7d84c7ec4b61a3a5b4a8b4970233"
+		}
+	],
+	"type": "collection",
+	"timestamp": "2022-02-03 19:35:06.646852",
+	"entry": [
+		{
+			"resource": {
+				"id": "{{patient_identifier}}",
+				"resourceType": "Patient",
+				"identifier": [
+					{
+						"type": {
+							"text": "DocSpera MR ID",
+							"coding": [
+								{
+									"code": "DSMRID",
+									"display": "DocSpera MR ID"
+								}
+							]
+						},
+						"value": "{{docspera_id}}",
+						"assigner": "DocSpera"
+					},
+					{
+						"type": {
+							"text": "Medical Record Number",
+							"coding": [
+								{
+									"code": "MR-DS",
+									"system": "http://hl7.org/fhir/v2/0203",
+									"display": "Medical Record Number"
+								}
+							]
+						},
+						"value": "{{mrn_number}}",
+						"system": "urn:oid:1.2.34.5",
+						"assigner": "DocSpera Test EMR"
+					}
+				],
+				"name": [
+					{
+						"use": "official",
+						"family": [
+							"Doe"
+						],
+						"given": [
+							"John"
+						],
+						"text": "John Doe"
+					}
+				],
+				"telecom": [
+					{
+						"system": "phone",
+						"value": "1112311123",
+						"use": "mobile"
+					},
+					{
+						"system": "email",
+						"value": "jd@test.com",
+						"use": "home"
+					}
+				],
+				"gender": {
+					"coding": [
+						{
+							"system": "https://www.hl7.org/fhir/valueset-administrative-gender.html",
+							"code": "male",
+							"display": "Male"
+						}
+					]
+				},
+				"birthDate": "1939-05-07",
+				"active": true,
+				"address": [
+					{
+						"use": "home",
+						"line": [
+							"1 Address"
+						],
+						"city": "Folsom",
+						"state": "CA",
+						"zip": "95630"
+					}
+				]
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"url": "Patient"
+	}
+}

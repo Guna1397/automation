@@ -1,0 +1,42 @@
+{
+	"resourceType": "Patient",
+	"identifier": [
+		{
+			"use": "usual",
+			"type": {
+				"coding": [
+					{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "MR",
+						"display": "Medical record number"
+					}
+				]
+			},
+			"system": "urn:oid:1.2.34.5",
+			"value": "{{mrn_number}}",
+			"assigner": {
+				"reference": "Organization/dce80036-4030-4dcf-aed8-165c94a57421"
+			}
+		}
+	],
+	"active": true,
+	"name": [
+		{
+			"use": "official",
+			"family": "white",
+			"given": [
+				"walter"
+			]
+		}
+	],
+	"birthDate": "2004-05-10",
+	"generalPractitioner": [
+		{
+			"reference": "Practitioner/70925ab4-343a-4732-a3bf-5a424ca8018c",
+			"display": "Dr Adam Careful"
+		}
+	],
+	"managingOrganization": {
+		"reference": "Organization/dce80036-4030-4dcf-aed8-165c94a57421"
+	}
+}

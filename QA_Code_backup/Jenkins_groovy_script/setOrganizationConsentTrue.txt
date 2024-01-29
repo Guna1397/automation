@@ -1,0 +1,134 @@
+import groovy.json.JsonSlurperClassic 
+node(label:'dsp-jenkins-infra-validation') {
+    cleanWs()
+    def jenkinsRepo = "d_tool_central_jenkins"
+    def infraRepo = "dsp_daa_fhir_layering"
+    def robotFrameworkRepo = "root_framework" 
+    def credentialId_mayur	= "0764162962-6467107276-0508748302"
+    def credentialId_vumashan = "29571386410-29571386410-29571386410"
+    def credentialId_dnethaji = "9e0a53bb-88d6-4697-b846-f1bcd55be9eb"
+    def xrayUploader = "../${infraRepo}"
+    def output = "Results"
+    stage('Python Robot Framework Tests') {
+        
+                    if (params.UserName == "mayur"){
+                        print "using credentials of user ${params.UserName}"
+                        credential_id = "${credentialId_mayur}"
+                        print "credential assigned"
+                    }else if (params.UserName == "vumashan"){
+                        print "using credentials of user ${params.UserName}"
+                        credential_id = "${credentialId_vumashan}"
+                    }else if (params.UserName == "dnethaji"){
+                        print "using credentials of user ${params.UserName}"
+                        credential_id = "${credentialId_dnethaji}"
+                    }else{
+                        print "INVALID USERNAME"
+                        sh "exit 1"
+                    }
+                    // if (credential_id == "${credentialId_${params.UserName}"){
+                    //     print "credential verified"
+                    // }
+                    dir (infraRepo){
+                        git credentialsId: credential_id, branch:'DAA_Org_Flag_Feature', url: "https://sourcecode.jnj.com/scm/asx-nayl/${infraRepo}.git"
+                    }
+                    dir (jenkinsRepo){
+                        git credentialsId: credential_id, branch:'devops-coe', url: "https://sourcecode.jnj.com/scm/asx-nayl/${jenkinsRepo}.git"
+                    }
+                    sh (script:'lsb_release -a')
+                    // sh ('sudo apt-get update -y')
+                    //sh('sudo apt-get install -y firefox')
+                    sh (script: 'sudo curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o "get-pip.py"')
+                    //sh (script: 'sudo python3.7 get-pip.py')
+					sh (script: 'sudo python3.7 -m pip install --upgrade pip')
+                    sh ('''
+			sudo rm -R -f packages-microsoft*
+                        wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+                        sudo dpkg -i packages-microsoft-prod.deb
+                        sudo apt-get update -y
+                        sudo apt-get install -y powershell
+                        ''')
+					//sh (script:'sudo apt -y --fix-broken install')
+                    sh (script:'pip install pdfkit')
+                    // sh (script:'which wkhtmltopdf')
+                    sh (script:"sudo apt-get -y install ./${jenkinsRepo}/resources/wkhtmltox_0.12.6-1.bionic_amd64.deb")
+                    sh (script:'which wkhtmltopdf')
+                    // sh (script: 'readlink -f geckodriver')
+                    sh('sudo rm -f chromedriver*')
+		            //sh('sudo rm -f geckodriver*')
+                    sh (script:'sudo apt install -y chromium-browser')
+                    sh (script:'sudo apt install unzip')
+                    sh (script:'wget https://github.com/mozilla/geckodriver/releases/download/v0.27.0/geckodriver-v0.27.0-linux64.tar.gz')
+                    //sh (script:'wget https://chromedriver.storage.googleapis.com/${ChromeDriver}/chromedriver_linux64.zip')
+                    //sh (script:'unzip chromedriver_linux64.zip')
+                    //sh (script:'tar -xvzf geckodriver*')
+                    //sh (script:'chmod +x geckodriver')
+                    //sh (script:'chmod +x chromedriver')
+                    //sh('sudo mv ./geckodriver  /usr/bin/')
+                    //sh('sudo mv ./chromedriver  /usr/bin/')
+                    //sh('sudo ln -s /home/agentadmin/workspace/Team-DevOps/robotframwork_firefox/geckodriver  /usr/bin/geckodriver')
+                    //sh('sudo mv /home/agentadmin/workspace/Team-DevOps/robotframwork_firefox/geckodriver  /usr/bin/geckodriver')
+                    sh(script: 'pip install robotframework')
+                    sh(script: 'pip install robotframework-seleniumlibrary')
+                    sh(script: 'pip install robotframework-selenium2library')
+                    sh(script: 'pip install robotframework-extendedrequestslibrary')
+					sh(script: 'pip install robotframework-requests-extension')
+                    dir(output){
+                        def test_execution = sh(script: "python3.7 -m robot.run -v env:${env1} -v workDir:${env.WORKSPACE} -s OrganizationConsentChange -d ./ ../dsp_daa_fhir_layering/robot-framework/test-suites", returnStatus: true)
+                        sh "echo ${test_execution}"
+                        if (test_execution != 0){
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                // sh "exit 1"
+                        }
+					
+                    }
+			def jsondata = readFile file: "api_output_JAYU-001.txt"
+                    def lines = jsondata.readLines()
+                    str = generateHtml(lines)  
+                    writeFile file: "TestReport.html", text: "${str}"
+			//sh('sudo rm api_output.txt')
+            }
+                //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: pwd()+'/Results/', reportFiles: '*.html', //reportName: 'HTML Report', //reportTitles: ''])  
+                
+        }
+
+        //cleanWs()
+}
+
+@NonCPS
+def generateHtml(def props) {
+
+def writer = new StringWriter()  // html is written here by markup builder
+def markup = new groovy.xml.MarkupBuilder(writer)  // the builder
+
+// MAKE OF HTML
+markup.html{
+    markup.head{
+    markup.style(type:"text/css", '''
+    .header {
+        color: white;
+        margin: 30px;
+        padding: 10px;
+        background-color: #625eac
+    }
+      .row {
+        margin: 30px;
+        padding: 10px;
+        background-color:  #b3f0ff
+    }
+    .nowrap{
+    }
+    ''')
+  }
+  for (def data in props) {
+    markup.pre(class:"nowrap", data) 
+    markup.br()
+  }//foreach
+
+}
+
+return writer.toString()
+  
+}
+
+
+

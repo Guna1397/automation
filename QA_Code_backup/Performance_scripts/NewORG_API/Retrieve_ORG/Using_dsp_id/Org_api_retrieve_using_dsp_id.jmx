@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="org_API" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">4</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">1800</stringProp>
+        <stringProp name="ThreadGroup.delay">4</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Org_api_Retrieve_using_dsp_id" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">dev.api.digitalsurgery.cloud</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/dsp/api/org/organizations/0a2006a9-9f2a-4246-b377-080eaea38b01</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJLcTh0bGdmR1E0NVVwb1UzVXhKcnBiMDZfaEl2bHhsdlVsOUkyWmpBNnRrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULk5OUFgtYnV5M1dPMlo2UkV5WjFkZGptYUpkU1JLbVVCMGQ1YjUwNXRKeGciLCJpc3MiOiJodHRwczovL2RzZXAtZGV2Lm9rdGEuY29tL29hdXRoMi9hdXMyaGVtYmhtcDExalFsSDY5NyIsImF1ZCI6Imh0dHBzOi8vZGV2Lm1lZHRlY2guYWNjb3VudHMuam5qIiwiaWF0IjoxNjc5NjQzNjE3LCJleHAiOjE2Nzk3MzAwMTcsImNpZCI6IjBvYTJoZWg2aDcxVm9hOTluNjk3IiwidWlkIjoiMDB1NGR6d3duMmdxelB1cUQ2OTciLCJzY3AiOlsiaHNkaSJdLCJhdXRoX3RpbWUiOjE2Nzk2NDM2MTQsInVzZXIubG9jYWxlIjoiZW5fVVMiLCJzdWIiOiJoZGkuZGV2LnN1cGVyLWFkbWluQHRoZXN1cmdpY2FsbmV0LmNvbSIsImZpcnN0TmFtZSI6IkhESSIsImxhc3ROYW1lIjoiU3VwZXJBZG1pbiIsIk9yZ0lEIjpbIjhkNGFjNWI2LTZjZmMtNGRmYS05NzU1LWE5NjZlY2IwYzFkIiwiMGEyMDA2YTktOWYyYS00MjQ2LWIzNzctMDgwZWFlYTM4YjAxIl0sIlRlbmFudFJvbGVzIjpbIjhjY2E3YWJhZDkyMzRkNmQ4MzNjZTNiN2ZkOWY4NGEyIiwiZGE2ZGM4Mzg3NGQyNGYxNGI0OWMyYzY1M2FiNzY5ZjEiXSwiZS1tYWlsIjoiaGRpLmRldi5zdXBlci1hZG1pbkB0aGVzdXJnaWNhbG5ldC5jb20ifQ.yp0saUwtOao-Z-VjR8myyWR1FexnQS7LNR1UPdUZzPUTxN4mNMhXR9JKx_F7jSkpJtyRfDt_Rr3slyGnsUYdbGHNlb3RsClB11h8AYqYUBC-cml8OHNsE6xdA7w2e4Sy2-rdym5wzwY6gNsUNVB5aFE7NzwNZUpyCtvHULDnvTRYB9IlQy935R320zBfSYD7lZyN2ya04m0ez6jU9gPhEYGibb34LfbXXCi-Trmf_EE4GzyZAbTjo7kCiFL0baPPuYTA7yEvea2BLZBR4n0GAs5CYReb87HACZsPqRHR9Ful2s4-nO293bipkhRjnha88xfQTOMQk__q0WRiWSkK3Q</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">ASLBSA=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ASLBSACORS=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ApplicationGatewayAffinity=c680e282102376305c539eb2233f2a00; ApplicationGatewayAffinityCORS=c680e282102376305c539eb2233f2a00</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">*/*</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept-Encoding</stringProp>
+                <stringProp name="Header.value">gzip, deflate, br</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cache-Control</stringProp>
+                <stringProp name="Header.value">no-cache</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

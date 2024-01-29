@@ -1,0 +1,66 @@
+import groovy.json.JsonSlurperClassic 
+node(label: 'dsp-jenkins-infra-validation'){
+    stage('Git Checkout'){
+	 cleanWs()
+     dir('dsp_daa_fhir_layering') {
+	  git branch: 'Docspera_Automated_Test', credentialsId: 'c266e724-5d09-46f2-80cc-dbf71d996337', url: 'https://sourcecode.jnj.com/scm/asx-nayl/dsp_daa_fhir_layering.git'
+    }
+	}
+   
+    stage('Copying blobs from container to container'){
+        //Command to uninstall powershell
+        // sh("sudo apt-get remove powershell -y")
+        def powershellVersion = sh (returnStdout: true, script:"pwsh || true" ).contains("PowerShell 7.1.3")
+        if(!powershellVersion){
+            //Installing powershell
+            sh("cat /etc/lsb-release")
+            sh("sudo apt-get install -y wget apt-transport-https software-properties-common")
+            sh("wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb")
+            sh("sudo dpkg -i packages-microsoft-prod.deb")
+            sh("sudo apt-get update")
+            sh("sudo apt-get install -y powershell")
+            sh("pwsh")
+        }
+        withCredentials([azureServicePrincipal(
+            clientIdVariable: 'ARM_CLIENT_ID',
+            clientSecretVariable: 'ARM_CLIENT_SECRET', 
+            credentialsId: 'daa-docspera-infradev',
+            subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID', 
+            tenantIdVariable: 'ARM_TENANT_ID'
+        )]) {
+            
+            sh("pwsh -Command Install-Module -Name Az.Accounts -Scope CurrentUser -Repository PSGallery -Force")
+            sh("pwsh -Command Install-Module -Name Az.Storage -Scope CurrentUser -Repository PSGallery -Force")
+            sh("pwsh -Command Install-Module -Name Az.Resources -Scope CurrentUser -Repository PSGallery -Force")
+    
+            //Executing powershell file
+                   //Executing powershell file
+            dir(pwd()+'/dsp_daa_fhir_layering/'){
+                sh("pwsh -file archive_blob_mover.ps1 ${params.Environments} $ARM_CLIENT_ID $ARM_CLIENT_SECRET")
+            }
+            
+        }
+    }
+
+
+	//<#stage('Push results to bitbucket'){
+		//dir(pwd()+'/Security-Remediation/Deployments/04CosmosDB_Resource_Lock/'){
+           // sh("sudo mv RESULT_AzureAD_Groups_Without_Owners.json ../../Configuration-Files/01AzureAD_Groups_Without_Owners/")
+	//}
+       //  dir(pwd()+'/Security-Remediation/'){
+         //      withCredentials([usernamePassword(credentialsId: 'Raj-Bitbucket',
+           //      usernameVariable: 'username',
+             //    passwordVariable: 'password')]){
+          // sh('git config --global user.name "Kumar, Raj [ETHUS NON-J&J]"')
+          // sh('git config --global user.email Rkuma252@its.jnj.com')
+           //sh('git pull origin pdf-reports')
+           //sh('git add .')
+          // sh('git commit -m "Storage Account Blob Soft Delete Result File" || true')
+          // sh("echo $username:$password > test")
+    	  // sh("git push https://$username:$password@sourcecode.jnj.com/scm/asx-nayl/security_remediation.git")
+
+	//}
+
+	//}
+   // }#>
+}

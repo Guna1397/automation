@@ -1,0 +1,33 @@
+{
+  "data": {
+    "docspera_okta_token":"Bearer eyJraWQiOiJyUXZWSkNNWDRwM3VjR3ZOLWs4ZFJEZF9ycjNJV3hKZXNIdVBNcmJXeGFJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkdwVnI2WGRsczg5NkxBazZBVk5TalhITmhJWmlRa1dWVmpReTU4OVVfN1EiLCJpc3MiOiJodHRwczovL2RzZXAtZGV2Lm9rdGEuY29tL29hdXRoMi9hdXMyaGVtYmhtcDExalFsSDY5NyIsImF1ZCI6Imh0dHBzOi8vZGV2Lm1lZHRlY2guYWNjb3VudHMuam5qIiwic3ViIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIiwiaWF0IjoxNjg3MzQyODM5LCJleHAiOjE2ODczNDY0MzksImNpZCI6IjBvYTJoZWg2aDcxVm9hOTluNjk3IiwidWlkIjoiMDB1NWxpNm4yb1pjM0s2V0c2OTciLCJzY3AiOlsiaHNkaSJdLCJhdXRoX3RpbWUiOjE2ODczNDI4MzYsInVzZXIubG9jYWxlIjoiZW5fVVMiLCJmaXJzdE5hbWUiOiJkb2NzcGVyYXYyYiIsImxhc3ROYW1lIjoiZG9jc3BlcmF2MmIiLCJPcmdJRCI6WyIwYTIwMDZhOS05ZjJhLTQyNDYtYjM3Ny0wODBlYWVhMzhiMDEiXSwiVGVuYW50Um9sZXMiOlsiM2JiZWQzZDU3MGM4NGJlMTk4MGExMmZmZjU5NmUyYWYiXSwiZS1tYWlsIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIn0.XCgFZ1RwRHxkDFm948_eGFR9wxMSvJ6PBI05BwsOm7Ftu7_hWxI9JmBlRxWHKSGjMycdbRtBZr2X90Pp0KaUZuFNHWmuUN1PIUBc7ZLKbyClkmTd6tAJx-NqHN4jIXGhP28soh8YQuaJ4mJqLt-OqdqHJrDtcMNWXEoS1GkkYLkjHtQJ1dBDZKiWA9xJ0PWrOMoNlemeWzvedzuEAdyqDd1OeFqSBQCpt_YuFitSd7FUFYbh87kJQ0wDtMHICbU76Hkym3ng_dxbcaio1Gret1SzZ3iT8mSAcYBlII5_Gi5PGtWUTeZBuH_lOzH7I-pJc3FVrt4O9DKsSkIOeI03pQ",
+    "velys_okta_token" : "Bearer eyJraWQiOiJyUXZWSkNNWDRwM3VjR3ZOLWs4ZFJEZF9ycjNJV3hKZXNIdVBNcmJXeGFJIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkRIOUVtbnhrX0NnYVNneWQ2OE5hM0dabnAya2hTOEdPS3lhNmd5YzBXYm8iLCJpc3MiOiJodHRwczovL2RzZXAtZGV2Lm9rdGEuY29tL29hdXRoMi9hdXMyaGVtYmhtcDExalFsSDY5NyIsImF1ZCI6Imh0dHBzOi8vZGV2Lm1lZHRlY2guYWNjb3VudHMuam5qIiwic3ViIjoidmVseXN2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIiwiaWF0IjoxNjg3MzQzMDM1LCJleHAiOjE2ODczNDY2MzUsImNpZCI6IjBvYTJoZWg2aDcxVm9hOTluNjk3IiwidWlkIjoiMDB1NWxpNnpnd3gzSkJKUGg2OTciLCJzY3AiOlsiaHNkaSJdLCJhdXRoX3RpbWUiOjE2ODczNDMwMzMsInVzZXIubG9jYWxlIjoiZW5fVVMiLCJmaXJzdE5hbWUiOiJ2ZWx5c3YyYiIsImxhc3ROYW1lIjoidmVseXN2MmIiLCJPcmdJRCI6WyJmNjFiNWFjMi1jNTNkLTRhMzEtYjkwNS02YjEwM2QxNjI5YzYiXSwiVGVuYW50Um9sZXMiOlsiZGMxMTllNWVhYmJiNDhiOGFiOWNjOGE4YjZjNDliNjYiXSwiZS1tYWlsIjoidmVseXN2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIn0.HgqERHqwNeEXJHJPWtvNQRUV7ROSL_ajZpLwEVe6Fjkqa9bW6ejvfpuofOMX_jGoTd9GNc94T84saYZy1zzobdMVGmLRFaPjO8pEma2WoRyyB7bmKOI8mBe6HfekHGHjivCs7UCs-234IOoUuEN2g8cuSBQ2MYKFChYU_q5Ql8oHUh0Tq8Jc5b_07Z-xb7Jxz26ZBqLx0DYm4eRNYq9NQMeiTk1QjrmUdxXwVU4ODwExV3T9Bo_iXXLkURaO2MNVwELygeIBqgf9p70nT8T9-yCJJbhgkVkL5K_Yrn2JPOcaAbdg7bzFZBwQy49jZiCQfdg2Ydps1qr-nTMjwFDiOA",
+    "org_api_url": "https://dev.api.digitalsurgery.cloud/dsp/api/hcp/v2b",
+    "patient_api_url":"https://dev.api.digitalsurgery.cloud/dsp/api/patient/v2b",
+    "mrn_url": "https://dev.api.digitalsurgery.cloud/dsp/api/mrnsearch/v2b",
+    "delta_api_url": "https://dev.api.digitalsurgery.cloud/dsp/api/deltachange/v2b",
+    "practitioner_api_url": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioner/v2b", 
+    "valid_mrn": "test_doc_id_mrn_1",
+    "In_valid_mrn": "5982890",
+    "valid_internal_oid": "1.2.34.5",
+    "valid_dsep_org_id":"2.16.840.1.119358475923.1",
+    "invalid_dsep_org_id": "22.16.840.1.119358475923.17",
+    "Epochfrom": "1685008805",
+    "checklist":"checklist",
+    "intake":"intake",
+    "intakesmartscheduler":"intake_smart_scheduler",
+    "checklistvalue":"35582",
+    "intakevalue":"5388268",
+    "intakesmartschedulervalue":"5388268",
+    "valid_dsp_id":"085de02f-6d79-4daa-9d36-6e86d30b7e1d",
+    "appoint_id":"5814dfe8-471b-497c-83bb-79eac77baf98",
+    "prac_valid_dsp_id":"4ab9a272-b1ca-45a3-a8bc-3b934549849a",
+    "prac_invalid_dsp_id": "4c648e-cf1a-4d9f-812d-72",
+    "valid_npi_id": "NPI_123",
+    "invalid_npi_id": "64463740",    
+    "DB_DETAILS":"dspeusdevhdimysqllmi.mysql.database.azure.com,3306,d4c_fhir_datastore,utf8mb4,True",
+    "POOLING_DETAILS":"100,2,5,3,True,None,0",
+    "DB_USER_NAME":"lmi-admin",
+    "DB_PASSWORD":"dNs4qWtl6xvEUcbw"
+  }
+}

@@ -1,0 +1,106 @@
+node(label:'dsp-jenkins-infra-validation')
+{
+   // clean the workdir
+   cleanWs()
+   //variables -def
+   def daaClientScenariosRepo = "dsp_daa_fhir_layering"
+   def branchName="DAA_Client_Scenarios"
+   def credentialId_aperuma = "c266e724-5d09-46f2-80cc-dbf71d996337"
+   def credentialId_vumashan = "29571386410-29571386410-29571386410"
+   def credentialId_dnethaji = "9e0a53bb-88d6-4697-b846-f1bcd55be9eb"
+   sh"python3.7   -V"
+
+   stage('Checkout the code from bitbucket') {
+
+      //select the username for bitbucket access
+      switch (params.UserName) {
+         case "aperuma":
+            print "using credentials of user ${params.UserName}, credential assigned"
+            credential_id = "${credentialId_aperuma}"
+            break
+
+         case "dnethaji":
+            print "using credentials of user ${params.UserName}, credential assigned"
+            credential_id = "${credentialId_dnethaji}"
+            break
+    
+         case "vumashan":
+            print "using credentials of user ${params.UserName}, credential assigned"
+            credential_id = "${credentialId_vumashan}"
+            break
+     
+         default:
+            print "INVALID USERNAME"
+            sh "exit 1"
+      }
+
+      //checkout from bitbucket
+      dir (daaClientScenariosRepo){
+            git credentialsId: credential_id, branch:"${branchName}", url: "https://sourcecode.jnj.com/scm/asx-nayl/${daaClientScenariosRepo}.git"
+            print "Pulled out the from bitbucket, from the repo ${daaClientScenariosRepo}"
+      }
+   }
+
+   stage('API Test Execution'){
+
+      //install the requirements
+      dir ("${daaClientScenariosRepo}"){
+			print "test ${env.WORKSPACE}"
+			sh (script: 'sudo curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o "get-pip.py"')
+            sh (script: 'sudo python3.7 get-pip.py')
+            sh 'pip install -r requirements.txt'
+      }   
+      // move to workspace dir
+      sh(script:"sudo chmod 775  ${daaClientScenariosRepo}")
+      dir(daaClientScenariosRepo){
+            print "test ${env.WORKSPACE}"
+            def test_execution = sh(script:'python3.7 -m pytest -s -v --env ${EnvironmentName} /home/agentadmin/workspace/Daily_Regression_DocSpera_DEV_Test/dsp_daa_fhir_layering/TestCases/apirequesttest/test_DocsperaEHR.py --html=HtmlReport/DocsperaEHR_Report.html --self-contained-html --capture=sys --show-capture=log',  returnStatus: true)
+			sh "echo ${test_execution}"
+			if (test_execution != 0){
+			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+					// sh "exit 1"
+			}
+      }   
+   }
+   }
+    stage('upload report to bitbucket'){
+        dir('dsp_daa_fhir_layering') {
+            withCredentials([usernamePassword(credentialsId: 'c266e724-5d09-46f2-80cc-dbf71d996337',usernameVariable: 'username',passwordVariable: 'password')]) {
+				script {
+                        encodedPass=URLEncoder.encode(password, "UTF-8")
+						}
+                def time = sh (returnStdout: true, script: """date \"+%Y-%m-%d_%H-%M-%S\"""").toString().trim()
+                def git_branch = "Docspera_Automated_Test"
+                sh("git clone https://$username:$encodedPass@sourcecode.jnj.com/scm/asx-nayl/dsp_daa_fhir_layering.git -b ${git_branch} --single-branch")
+                dir('dsp_daa_fhir_layering'){
+					sh("""	
+						sudo mkdir -p Reports/DocSpera_Velys_Integration_Scenarios/dev/Test-reports-${time}	
+						sudo mv /home/agentadmin/workspace/Daily_Regression_DocSpera_DEV_Test/dsp_daa_fhir_layering/HtmlReport/* Reports/DocSpera_Velys_Integration_Scenarios/dev/Test-reports-${time} || true
+					""")
+                    sh('git config --global user.name "Perumal, Avinash [ETHUS NON-J&J]"')
+                    sh('git config --global user.email Aperuma2@its.jnj.com')
+                    sh('git add .')
+                    sh('git commit -m "JAYU-1947: uploading reports" || true')
+                    sh("git push https://$username:$encodedPass@sourcecode.jnj.com/scm/asx-nayl/dsp_daa_fhir_layering.git")
+                }
+			}
+        }
+        //cleanWs()
+    }
+
+//   stage('Publish the Html Report'){
+
+//      publishHTML(
+ //     [allowMissing: false, 
+ //     alwaysLinkToLastBuild: false, 
+//      keepAll: true, 
+ //     reportDir: pwd()+'/HtmlReport/', 
+//      reportFiles: '*.html', 
+//      reportName: 'HTML Report', 
+//      reportTitles: 'DocsperaEHR_Report'
+//     ])
+
+
+ //  }
+
+}

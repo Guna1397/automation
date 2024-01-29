@@ -1,0 +1,15 @@
+node(label:'dsp-jenkins-infra-validation')
+{
+   // clean the workdir
+   cleanWs()
+   sh"python3.7   -V"
+      stage('Installing libraries') {
+	  sh (script:'sudo apt install -y --fix-broken')
+	  //sh (script:'sudo apt-get clean')
+	  //sh (script:'sudo dpkg --configure -a')
+	  sh (script:'sudo apt-get update')
+	  sh (script:'sudo apt-get -y upgrade')
+	  sh (script:'sudo apt install -y chromium-browser')
+
+	  }
+}

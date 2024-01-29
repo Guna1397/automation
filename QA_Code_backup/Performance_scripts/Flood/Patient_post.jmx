@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments">Note: run TG consecutively on.</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time"></stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="TestPlan.comments">Initial pause so next TG starts at the 30th second of next minute</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sleep Timer" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">switch ( ${__time(ss)}.toInteger() ) {
+	case { it &lt; 30 }:
+		// log.info(&quot;SECOND:&quot; + ${__time(ss)} + &quot; SLEEP: &quot; +  (30 - ${__time(ss)}.toInteger()).toString())
+		sleep(1000 * (30 - ${__time(ss)}.toInteger()).toLong())
+		break
+	case { it &gt; 30 }:
+		// log.info(&quot;SECOND:&quot; + ${__time(ss)} +  &quot; SLEEP: &quot; + (90 - ${__time(ss)}.toInteger()).toString())
+		sleep(1000 * (90 - ${__time(ss)}.toInteger()).toLong())
+		break
+	default:
+		break
+}</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threads,6)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,0)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(duration,300)}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">${myDelay}</stringProp>
+        </TestAction>
+        <hashTree>
+          <JSR223Timer guiclass="TestBeanGUI" testclass="JSR223Timer" testname="JSR223 Timer" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">Long pause = 60000 - prev.getTime();
+vars.put(&quot;myDelay&quot;, String.valueOf(pause));</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Timer>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="EMR_Patient_API_create" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;resourceType&quot;: &quot;Bundle&quot;,&#xd;
+	&quot;identifier&quot;: [&#xd;
+		{&#xd;
+			&quot;type&quot;: {&#xd;
+				&quot;text&quot;: &quot;DocSpera Bundle ID&quot;,&#xd;
+				&quot;coding&quot;: [&#xd;
+					{&#xd;
+						&quot;code&quot;: &quot;DSBID&quot;,&#xd;
+						&quot;display&quot;: &quot;DocSpera Bundle ID&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			},&#xd;
+			&quot;value&quot;: &quot;${uuid}&quot;&#xd;
+		}&#xd;
+	],&#xd;
+	&quot;type&quot;: &quot;collection&quot;,&#xd;
+	&quot;timestamp&quot;: &quot;2022-02-03 19:35:06.646852&quot;,&#xd;
+	&quot;entry&quot;: [&#xd;
+		{&#xd;
+			&quot;resource&quot;: {&#xd;
+				&quot;id&quot;: &quot;${uuid}&quot;,&#xd;
+				&quot;resourceType&quot;: &quot;Patient&quot;,&#xd;
+				&quot;identifier&quot;: [&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;DocSpera MR ID&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;DSMRID&quot;,&#xd;
+									&quot;display&quot;: &quot;DocSpera MR ID&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;${mr}&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;Medical Record Number&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;MR-DS&quot;,&#xd;
+									&quot;system&quot;: &quot;http://hl7.org/fhir/v2/0203&quot;,&#xd;
+									&quot;display&quot;: &quot;Medical Record Number&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;${mrn}&quot;,&#xd;
+						&quot;system&quot;: &quot;urn:oid:1.2.34.5&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera Test EMR&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;name&quot;: [&#xd;
+					{&#xd;
+						&quot;use&quot;: &quot;official&quot;,&#xd;
+						&quot;family&quot;: [&#xd;
+							&quot;Doe&quot;&#xd;
+						],&#xd;
+						&quot;given&quot;: [&#xd;
+							&quot;John&quot;&#xd;
+						],&#xd;
+						&quot;text&quot;: &quot;John Doe&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;telecom&quot;: [&#xd;
+					{&#xd;
+						&quot;system&quot;: &quot;phone&quot;,&#xd;
+						&quot;value&quot;: &quot;1112311123&quot;,&#xd;
+						&quot;use&quot;: &quot;mobile&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;system&quot;: &quot;email&quot;,&#xd;
+						&quot;value&quot;: &quot;jd@test.com&quot;,&#xd;
+						&quot;use&quot;: &quot;home&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;gender&quot;: {&#xd;
+					&quot;coding&quot;: [&#xd;
+						{&#xd;
+							&quot;system&quot;: &quot;https://www.hl7.org/fhir/valueset-administrative-gender.html&quot;,&#xd;
+							&quot;code&quot;: &quot;male&quot;,&#xd;
+							&quot;display&quot;: &quot;Male&quot;&#xd;
+						}&#xd;
+					]&#xd;
+				},&#xd;
+				&quot;birthDate&quot;: &quot;1939-05-07&quot;,&#xd;
+				&quot;active&quot;: true,&#xd;
+				&quot;address&quot;: [&#xd;
+					{&#xd;
+						&quot;use&quot;: &quot;home&quot;,&#xd;
+						&quot;line&quot;: [&#xd;
+							&quot;1 Address&quot;&#xd;
+						],&#xd;
+						&quot;city&quot;: &quot;Folsom&quot;,&#xd;
+						&quot;state&quot;: &quot;CA&quot;,&#xd;
+						&quot;zip&quot;: &quot;95630&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			}&#xd;
+		},&#xd;
+		{&#xd;
+			&quot;resource&quot;: {&#xd;
+				&quot;id&quot;: &quot;${uuid}&quot;,&#xd;
+				&quot;resourceType&quot;: &quot;Appointment&quot;,&#xd;
+				&quot;identifier&quot;: [&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;DocSpera Calendar ID&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;DSCID&quot;,&#xd;
+									&quot;display&quot;: &quot;DocSpera Calendar ID&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;app_cal_id_1&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;status&quot;: &quot;booked&quot;,&#xd;
+				&quot;appointmentType&quot;: {&#xd;
+					&quot;coding&quot;: [&#xd;
+						{&#xd;
+							&quot;code&quot;: &quot;Surgical&quot;&#xd;
+						}&#xd;
+					]&#xd;
+				},&#xd;
+				&quot;serviceType&quot;: [&#xd;
+					{&#xd;
+						&quot;coding&quot;: [&#xd;
+							{&#xd;
+								&quot;code&quot;: &quot;218&quot;,&#xd;
+								&quot;system&quot;: &quot;http://hl7.org/fhir/ValueSet/service-type&quot;,&#xd;
+								&quot;display&quot;: &quot;Orthopaedic Surgery&quot;&#xd;
+							}&#xd;
+						]&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;description&quot;: &quot;Left TKA&quot;,&#xd;
+				&quot;start&quot;: &quot;2022-02-17 12:30:00&quot;,&#xd;
+				&quot;end&quot;: &quot;2022-02-17 13:30:00&quot;,&#xd;
+				&quot;created&quot;: &quot;20220203113502&quot;,&#xd;
+				&quot;comment&quot;: &quot;Case Notes are here.&quot;,&#xd;
+				&quot;participant&quot;: [&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;reference&quot;: &quot;Patient&quot;,&#xd;
+							&quot;display&quot;: &quot;John Doe&quot;&#xd;
+						},&#xd;
+						&quot;identifier&quot;: [&#xd;
+							{&#xd;
+								&quot;type&quot;: {&#xd;
+									&quot;text&quot;: &quot;DocSpera MR ID&quot;,&#xd;
+									&quot;coding&quot;: [&#xd;
+										{&#xd;
+											&quot;code&quot;: &quot;DSMRID&quot;,&#xd;
+											&quot;display&quot;: &quot;DocSpera MR ID&quot;&#xd;
+										}&#xd;
+									]&#xd;
+								},&#xd;
+								&quot;value&quot;: &quot;${mr}&quot;,&#xd;
+								&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+							}&#xd;
+						],&#xd;
+						&quot;display&quot;: &quot;John Doe&quot;,&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;type&quot;: {&#xd;
+								&quot;display&quot;: &quot;Practitioner&quot;&#xd;
+							},&#xd;
+							&quot;identifier&quot;: [&#xd;
+								{&#xd;
+									&quot;type&quot;: {&#xd;
+										&quot;text&quot;: &quot;DocSpera User ID&quot;,&#xd;
+										&quot;coding&quot;: [&#xd;
+											{&#xd;
+												&quot;code&quot;: &quot;DSUSERID&quot;,&#xd;
+												&quot;display&quot;: &quot;DocSpera User ID&quot;&#xd;
+											}&#xd;
+										]&#xd;
+									},&#xd;
+									&quot;value&quot;: &quot;practi_test_data&quot;,&#xd;
+									&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+								}&#xd;
+							],&#xd;
+							&quot;display&quot;: &quot;Robert Blue&quot;&#xd;
+						},&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;type&quot;: {&#xd;
+								&quot;display&quot;: &quot;Location&quot;&#xd;
+							},&#xd;
+							&quot;display&quot;: &quot;General Hospital&quot;&#xd;
+						},&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			}&#xd;
+		}&#xd;
+	],&#xd;
+	&quot;request&quot;: {&#xd;
+		&quot;method&quot;: &quot;POST&quot;,&#xd;
+		&quot;url&quot;: &quot;Patient&amp;Appointment&quot;&#xd;
+	}&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">dev.api.digitalsurgery.cloud</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/dsp/api/patient/v2b/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="108393">mrn</stringProp>
+              <stringProp name="3493">mr</stringProp>
+              <stringProp name="3601339">uuid</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="-1187202023">
+                <stringProp name="-191893921">${__Random(00000,50000)}</stringProp>
+                <stringProp name="-191893921">${__Random(00000,50000)}</stringProp>
+                <stringProp name="118040362">${__UUID()}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+          </UserParameters>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJLcTh0bGdmR1E0NVVwb1UzVXhKcnBiMDZfaEl2bHhsdlVsOUkyWmpBNnRrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmZINExJQTR1a1l6dmJjWnRUd3BMR2R4VW9lUXlkLVcwUVE4bGVva2JXSkkiLCJpc3MiOiJodHRwczovL2RzZXAtZGV2Lm9rdGEuY29tL29hdXRoMi9hdXMyaGVtYmhtcDExalFsSDY5NyIsImF1ZCI6Imh0dHBzOi8vZGV2Lm1lZHRlY2guYWNjb3VudHMuam5qIiwic3ViIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIiwiaWF0IjoxNjg2NzUzMzc5LCJleHAiOjE2ODY3NTY5NzksImNpZCI6IjBvYTJoZWg2aDcxVm9hOTluNjk3IiwidWlkIjoiMDB1NWxpNm4yb1pjM0s2V0c2OTciLCJzY3AiOlsiaHNkaSJdLCJhdXRoX3RpbWUiOjE2ODY3NTMzNzUsInVzZXIubG9jYWxlIjoiZW5fVVMiLCJmaXJzdE5hbWUiOiJkb2NzcGVyYXYyYiIsImxhc3ROYW1lIjoiZG9jc3BlcmF2MmIiLCJPcmdJRCI6WyIwYTIwMDZhOS05ZjJhLTQyNDYtYjM3Ny0wODBlYWVhMzhiMDEiXSwiVGVuYW50Um9sZXMiOlsiM2JiZWQzZDU3MGM4NGJlMTk4MGExMmZmZjU5NmUyYWYiXSwiZS1tYWlsIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIn0.k5f6XpSniUbyfMV_9vxo6uaC4zC9Ukpxz6sHW95CFnw93sEVeVC_jTWaCizpOHW5Q-h_vVCZc-elPD4wpJ0gbkLWIUH8RVVYfVUOEK1iVi4wz9IXM-zcjnpCFJqSyEhIHQGklCNxvlRPbJyh8-KRf8rUn97vj_8dV495JqsIT5BBfu9jXTLKjxqSFQFGyGP8FjVpNTbFWYiyxJI_1C6LzwimMA72WY0uHe6T1nbHrV38b3ZgMr3S1yLDbh3uSIIIatW0Zx6OcXPaVJG_ohDqsTjJ0Cc6iDMN1eiFp9VVJjR-xATN3CWowFaRd-eanslidms_mAX2jbw154_gmSg-eA</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">ASLBSA=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ASLBSACORS=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ApplicationGatewayAffinity=c680e282102376305c539eb2233f2a00; ApplicationGatewayAffinityCORS=c680e282102376305c539eb2233f2a00</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">*/*</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept-Encoding</stringProp>
+                <stringProp name="Header.value">gzip, deflate, br</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cache-Control</stringProp>
+                <stringProp name="Header.value">no-cache</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">12</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="EMR_Patient_API_create" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;resourceType&quot;: &quot;Bundle&quot;,&#xd;
+	&quot;identifier&quot;: [&#xd;
+		{&#xd;
+			&quot;type&quot;: {&#xd;
+				&quot;text&quot;: &quot;DocSpera Bundle ID&quot;,&#xd;
+				&quot;coding&quot;: [&#xd;
+					{&#xd;
+						&quot;code&quot;: &quot;DSBID&quot;,&#xd;
+						&quot;display&quot;: &quot;DocSpera Bundle ID&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			},&#xd;
+			&quot;value&quot;: &quot;a43f4665-e60b-4fab-b114-d67d230bace9&quot;&#xd;
+		}&#xd;
+	],&#xd;
+	&quot;type&quot;: &quot;collection&quot;,&#xd;
+	&quot;timestamp&quot;: &quot;2022-02-03 19:35:06.646852&quot;,&#xd;
+	&quot;entry&quot;: [&#xd;
+		{&#xd;
+			&quot;resource&quot;: {&#xd;
+				&quot;id&quot;: &quot;${uuid}&quot;,&#xd;
+				&quot;resourceType&quot;: &quot;Patient&quot;,&#xd;
+				&quot;identifier&quot;: [&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;DocSpera MR ID&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;DSMRID&quot;,&#xd;
+									&quot;display&quot;: &quot;DocSpera MR ID&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;${mr}&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;Medical Record Number&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;MR-DS&quot;,&#xd;
+									&quot;system&quot;: &quot;http://hl7.org/fhir/v2/0203&quot;,&#xd;
+									&quot;display&quot;: &quot;Medical Record Number&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;${mrn}&quot;,&#xd;
+						&quot;system&quot;: &quot;urn:oid:1.2.34.5&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera Test EMR&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;name&quot;: [&#xd;
+					{&#xd;
+						&quot;use&quot;: &quot;official&quot;,&#xd;
+						&quot;family&quot;: [&#xd;
+							&quot;Doe&quot;&#xd;
+						],&#xd;
+						&quot;given&quot;: [&#xd;
+							&quot;John&quot;&#xd;
+						],&#xd;
+						&quot;text&quot;: &quot;John Doe&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;telecom&quot;: [&#xd;
+					{&#xd;
+						&quot;system&quot;: &quot;phone&quot;,&#xd;
+						&quot;value&quot;: &quot;1112311123&quot;,&#xd;
+						&quot;use&quot;: &quot;mobile&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;system&quot;: &quot;email&quot;,&#xd;
+						&quot;value&quot;: &quot;jd@test.com&quot;,&#xd;
+						&quot;use&quot;: &quot;home&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;gender&quot;: {&#xd;
+					&quot;coding&quot;: [&#xd;
+						{&#xd;
+							&quot;system&quot;: &quot;https://www.hl7.org/fhir/valueset-administrative-gender.html&quot;,&#xd;
+							&quot;code&quot;: &quot;male&quot;,&#xd;
+							&quot;display&quot;: &quot;Male&quot;&#xd;
+						}&#xd;
+					]&#xd;
+				},&#xd;
+				&quot;birthDate&quot;: &quot;1939-05-07&quot;,&#xd;
+				&quot;active&quot;: true,&#xd;
+				&quot;address&quot;: [&#xd;
+					{&#xd;
+						&quot;use&quot;: &quot;home&quot;,&#xd;
+						&quot;line&quot;: [&#xd;
+							&quot;1 Address&quot;&#xd;
+						],&#xd;
+						&quot;city&quot;: &quot;Folsom&quot;,&#xd;
+						&quot;state&quot;: &quot;CA&quot;,&#xd;
+						&quot;zip&quot;: &quot;95630&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			}&#xd;
+		},&#xd;
+		{&#xd;
+			&quot;resource&quot;: {&#xd;
+				&quot;id&quot;: &quot;${uuid}&quot;,&#xd;
+				&quot;resourceType&quot;: &quot;Appointment&quot;,&#xd;
+				&quot;identifier&quot;: [&#xd;
+					{&#xd;
+						&quot;type&quot;: {&#xd;
+							&quot;text&quot;: &quot;DocSpera Calendar ID&quot;,&#xd;
+							&quot;coding&quot;: [&#xd;
+								{&#xd;
+									&quot;code&quot;: &quot;DSCID&quot;,&#xd;
+									&quot;display&quot;: &quot;DocSpera Calendar ID&quot;&#xd;
+								}&#xd;
+							]&#xd;
+						},&#xd;
+						&quot;value&quot;: &quot;app_cal_id_1&quot;,&#xd;
+						&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;status&quot;: &quot;booked&quot;,&#xd;
+				&quot;appointmentType&quot;: {&#xd;
+					&quot;coding&quot;: [&#xd;
+						{&#xd;
+							&quot;code&quot;: &quot;Surgical&quot;&#xd;
+						}&#xd;
+					]&#xd;
+				},&#xd;
+				&quot;serviceType&quot;: [&#xd;
+					{&#xd;
+						&quot;coding&quot;: [&#xd;
+							{&#xd;
+								&quot;code&quot;: &quot;218&quot;,&#xd;
+								&quot;system&quot;: &quot;http://hl7.org/fhir/ValueSet/service-type&quot;,&#xd;
+								&quot;display&quot;: &quot;Orthopaedic Surgery&quot;&#xd;
+							}&#xd;
+						]&#xd;
+					}&#xd;
+				],&#xd;
+				&quot;description&quot;: &quot;Left TKA&quot;,&#xd;
+				&quot;start&quot;: &quot;2022-02-17 12:30:00&quot;,&#xd;
+				&quot;end&quot;: &quot;2022-02-17 13:30:00&quot;,&#xd;
+				&quot;created&quot;: &quot;20220203113502&quot;,&#xd;
+				&quot;comment&quot;: &quot;Case Notes are here.&quot;,&#xd;
+				&quot;participant&quot;: [&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;reference&quot;: &quot;Patient&quot;,&#xd;
+							&quot;display&quot;: &quot;John Doe&quot;&#xd;
+						},&#xd;
+						&quot;identifier&quot;: [&#xd;
+							{&#xd;
+								&quot;type&quot;: {&#xd;
+									&quot;text&quot;: &quot;DocSpera MR ID&quot;,&#xd;
+									&quot;coding&quot;: [&#xd;
+										{&#xd;
+											&quot;code&quot;: &quot;DSMRID&quot;,&#xd;
+											&quot;display&quot;: &quot;DocSpera MR ID&quot;&#xd;
+										}&#xd;
+									]&#xd;
+								},&#xd;
+								&quot;value&quot;: &quot;${mr}&quot;,&#xd;
+								&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+							}&#xd;
+						],&#xd;
+						&quot;display&quot;: &quot;John Doe&quot;,&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;type&quot;: {&#xd;
+								&quot;display&quot;: &quot;Practitioner&quot;&#xd;
+							},&#xd;
+							&quot;identifier&quot;: [&#xd;
+								{&#xd;
+									&quot;type&quot;: {&#xd;
+										&quot;text&quot;: &quot;DocSpera User ID&quot;,&#xd;
+										&quot;coding&quot;: [&#xd;
+											{&#xd;
+												&quot;code&quot;: &quot;DSUSERID&quot;,&#xd;
+												&quot;display&quot;: &quot;DocSpera User ID&quot;&#xd;
+											}&#xd;
+										]&#xd;
+									},&#xd;
+									&quot;value&quot;: &quot;practi_test_data&quot;,&#xd;
+									&quot;assigner&quot;: &quot;DocSpera&quot;&#xd;
+								}&#xd;
+							],&#xd;
+							&quot;display&quot;: &quot;Robert Blue&quot;&#xd;
+						},&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					},&#xd;
+					{&#xd;
+						&quot;actor&quot;: {&#xd;
+							&quot;type&quot;: {&#xd;
+								&quot;display&quot;: &quot;Location&quot;&#xd;
+							},&#xd;
+							&quot;display&quot;: &quot;General Hospital&quot;&#xd;
+						},&#xd;
+						&quot;required&quot;: &quot;required&quot;,&#xd;
+						&quot;status&quot;: &quot;accepted&quot;&#xd;
+					}&#xd;
+				]&#xd;
+			}&#xd;
+		}&#xd;
+	],&#xd;
+	&quot;request&quot;: {&#xd;
+		&quot;method&quot;: &quot;POST&quot;,&#xd;
+		&quot;url&quot;: &quot;Patient&amp;Appointment&quot;&#xd;
+	}&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">dev.api.digitalsurgery.cloud</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/dsp/api/patient/v2b/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="User Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="108393">mrn</stringProp>
+              <stringProp name="3493">mr</stringProp>
+              <stringProp name="3601339">uuid</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="-1187202023">
+                <stringProp name="-191893921">${__Random(00000,50000)}</stringProp>
+                <stringProp name="-191893921">${__Random(00000,50000)}</stringProp>
+                <stringProp name="118040362">${__UUID()}</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+          </UserParameters>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer eyJraWQiOiJLcTh0bGdmR1E0NVVwb1UzVXhKcnBiMDZfaEl2bHhsdlVsOUkyWmpBNnRrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmZINExJQTR1a1l6dmJjWnRUd3BMR2R4VW9lUXlkLVcwUVE4bGVva2JXSkkiLCJpc3MiOiJodHRwczovL2RzZXAtZGV2Lm9rdGEuY29tL29hdXRoMi9hdXMyaGVtYmhtcDExalFsSDY5NyIsImF1ZCI6Imh0dHBzOi8vZGV2Lm1lZHRlY2guYWNjb3VudHMuam5qIiwic3ViIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIiwiaWF0IjoxNjg2NzUzMzc5LCJleHAiOjE2ODY3NTY5NzksImNpZCI6IjBvYTJoZWg2aDcxVm9hOTluNjk3IiwidWlkIjoiMDB1NWxpNm4yb1pjM0s2V0c2OTciLCJzY3AiOlsiaHNkaSJdLCJhdXRoX3RpbWUiOjE2ODY3NTMzNzUsInVzZXIubG9jYWxlIjoiZW5fVVMiLCJmaXJzdE5hbWUiOiJkb2NzcGVyYXYyYiIsImxhc3ROYW1lIjoiZG9jc3BlcmF2MmIiLCJPcmdJRCI6WyIwYTIwMDZhOS05ZjJhLTQyNDYtYjM3Ny0wODBlYWVhMzhiMDEiXSwiVGVuYW50Um9sZXMiOlsiM2JiZWQzZDU3MGM4NGJlMTk4MGExMmZmZjU5NmUyYWYiXSwiZS1tYWlsIjoiZG9jc3BlcmF2MmJAdGhlc3VyZ2ljYWxuZXQuY29tIn0.k5f6XpSniUbyfMV_9vxo6uaC4zC9Ukpxz6sHW95CFnw93sEVeVC_jTWaCizpOHW5Q-h_vVCZc-elPD4wpJ0gbkLWIUH8RVVYfVUOEK1iVi4wz9IXM-zcjnpCFJqSyEhIHQGklCNxvlRPbJyh8-KRf8rUn97vj_8dV495JqsIT5BBfu9jXTLKjxqSFQFGyGP8FjVpNTbFWYiyxJI_1C6LzwimMA72WY0uHe6T1nbHrV38b3ZgMr3S1yLDbh3uSIIIatW0Zx6OcXPaVJG_ohDqsTjJ0Cc6iDMN1eiFp9VVJjR-xATN3CWowFaRd-eanslidms_mAX2jbw154_gmSg-eA</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">ASLBSA=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ASLBSACORS=0003f9a55717c71bfc95661756117b6bd0e396075bb6450ed5069a674e90e882a879; ApplicationGatewayAffinity=c680e282102376305c539eb2233f2a00; ApplicationGatewayAffinityCORS=c680e282102376305c539eb2233f2a00</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">*/*</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept-Encoding</stringProp>
+                <stringProp name="Header.value">gzip, deflate, br</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cache-Control</stringProp>
+                <stringProp name="Header.value">no-cache</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="false">
+        <stringProp name="filename">/data/flood/files/data.csv</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="variableNames">uuid</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

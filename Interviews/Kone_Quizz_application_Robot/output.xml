@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.2 (Python 3.10.8 on win32)" generated="20231005 14:44:37.809" rpa="false" schemaversion="3">
+<suite id="s1" name="Game" source="E:\Quizz_application\game.robot">
+<test id="s1-t1" name="User wants to display the question" line="18">
+<kw name="Given The user access the question">
+<kw name="Log To Console" library="BuiltIn">
+<arg>User access the file which contains questions and answers</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.845"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.845"/>
+</kw>
+<kw name="When User wants to display the questions">
+<kw name="Display Questions" library="QuizApp">
+<var>${display_questions}</var>
+<msg timestamp="20231005 14:44:37.845" level="INFO">Q: What is Your name ?
+A: Gunaseelan
+
+Q: What is Your Age ?
+A: 25
+
+Q: What is Your Qualificaiton ?
+A: BE
+
+Q: How Many years of Experience do you have ?
+A: 2 years
+
+Q: What is Your Role ? 
+A: Automation Engineer</msg>
+<msg timestamp="20231005 14:44:37.845" level="INFO">${display_questions} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.845"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>The questions availabe are : ${display_questions}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.863"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.863"/>
+</kw>
+<kw name="Then Verify the questions display">
+<kw name="Display Questions" library="QuizApp">
+<var>${display_questions}</var>
+<msg timestamp="20231005 14:44:37.864" level="INFO">Q: What is Your name ?
+A: Gunaseelan
+
+Q: What is Your Age ?
+A: 25
+
+Q: What is Your Qualificaiton ?
+A: BE
+
+Q: How Many years of Experience do you have ?
+A: 2 years
+
+Q: What is Your Role ? 
+A: Automation Engineer</msg>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${display_questions} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<var>${status}</var>
+<arg>should not be empty</arg>
+<arg>${display_questions}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${display_questions}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20231005 14:44:37.864" level="INFO">Length is 5</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${status} = True</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Questions displayed successfully and the status is : ${status}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.845" endtime="20231005 14:44:37.864"/>
+</test>
+<test id="s1-t2" name="User wants to add and display the added question" line="24">
+<kw name="Given The user wants to add a question">
+<kw name="Add Question" library="QuizApp">
+<var>${add_question}</var>
+<arg>${question}</arg>
+<arg>${answer}</arg>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${add_question} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Question is : ${question}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Answer is : ${answer}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<var>${status}</var>
+<arg>should be equal</arg>
+<arg>${answer}</arg>
+<arg>${add_question["${question}"]}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${answer}</arg>
+<arg>${add_question["${question}"]}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${status} = True</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Question added successfully and the status is : ${status}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="When User wants to display the question added">
+<kw name="Display Questions" library="QuizApp">
+<var>${Questions_display}</var>
+<msg timestamp="20231005 14:44:37.864" level="INFO">Q: What is Your name ?
+A: Gunaseelan
+
+Q: What is Your Age ?
+A: 25
+
+Q: What is Your Qualificaiton ?
+A: BE
+
+Q: How Many years of Experience do you have ?
+A: 2 years
+
+Q: What is Your Role ? 
+A: Automation Engineer
+
+Q: what s ur name?
+A: gunaseelan</msg>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${Questions_display} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Questions are : ${Questions_display}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Then Verify the question added">
+<kw name="Add Question" library="QuizApp">
+<var>${add_question}</var>
+<arg>${question}</arg>
+<arg>${answer}</arg>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${add_question} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<var>${status}</var>
+<arg>should be equal</arg>
+<arg>${answer}</arg>
+<arg>${add_question["${question}"]}</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${answer}</arg>
+<arg>${add_question["${question}"]}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<msg timestamp="20231005 14:44:37.864" level="INFO">${status} = True</msg>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Question added successfully and the status is : ${status}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.864"/>
+</test>
+<test id="s1-t3" name="User wants to delete the question" line="29">
+<kw name="Given The user access the question">
+<kw name="Log To Console" library="BuiltIn">
+<arg>User access the file which contains questions and answers</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.879" endtime="20231005 14:44:37.880"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.880"/>
+</kw>
+<kw name="When User wants to delete the question">
+<kw name="Delete Question" library="QuizApp">
+<var>${del_question}</var>
+<arg>${question}</arg>
+<msg timestamp="20231005 14:44:37.881" level="INFO">${del_question} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.881" endtime="20231005 14:44:37.881"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Deleted Question is ${question}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231005 14:44:37.881" level="INFO">Deleted Question is what s ur name?</msg>
+<status status="PASS" starttime="20231005 14:44:37.881" endtime="20231005 14:44:37.881"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.881" endtime="20231005 14:44:37.881"/>
+</kw>
+<kw name="Then Verify the question deleted">
+<kw name="Display Questions" library="QuizApp">
+<var>${display}</var>
+<msg timestamp="20231005 14:44:37.883" level="INFO">Q: What is Your name ?
+A: Gunaseelan
+
+Q: What is Your Age ?
+A: 25
+
+Q: What is Your Qualificaiton ?
+A: BE
+
+Q: How Many years of Experience do you have ?
+A: 2 years
+
+Q: What is Your Role ? 
+A: Automation Engineer</msg>
+<msg timestamp="20231005 14:44:37.883" level="INFO">${display} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.883" endtime="20231005 14:44:37.883"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${display}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.883" endtime="20231005 14:44:37.883"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.883" endtime="20231005 14:44:37.883"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.864" endtime="20231005 14:44:37.883"/>
+</test>
+<test id="s1-t4" name="User tires to enter invalid choice" line="34">
+<kw name="Given user enters the invalid choice">
+<kw name="Whilefun" library="QuizApp">
+<var>${Invalid_choice}</var>
+<arg>${choice}</arg>
+<msg timestamp="20231005 14:44:37.887" level="INFO">Menu:
+1. Add Question and Answer
+2. Delete Question and Answer
+3. Display Questions and Answers
+4. Start Game
+5. Quit</msg>
+<msg timestamp="20231005 14:44:37.887" level="INFO">${Invalid_choice} = Invalid choice. Please select a valid option.</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${Invalid_choice}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231005 14:44:37.887" level="INFO">Invalid choice. Please select a valid option.</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="When User should not get any choice">
+<kw name="Log To Console" library="BuiltIn">
+<arg>User Entered Invalid choice</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="Then Verify the error message">
+<kw name="Whilefun" library="QuizApp">
+<var>${Invalid_choice}</var>
+<arg>${choice}</arg>
+<msg timestamp="20231005 14:44:37.887" level="INFO">Menu:
+1. Add Question and Answer
+2. Delete Question and Answer
+3. Display Questions and Answers
+4. Start Game
+5. Quit</msg>
+<msg timestamp="20231005 14:44:37.887" level="INFO">${Invalid_choice} = Invalid choice. Please select a valid option.</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${Invalid_choice}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231005 14:44:37.887" level="INFO">Invalid choice. Please select a valid option.</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.886" endtime="20231005 14:44:37.887"/>
+</test>
+<test id="s1-t5" name="User wants to delete the question that doesnt exist" line="39">
+<kw name="Given The user access the question">
+<kw name="Log To Console" library="BuiltIn">
+<arg>User access the file which contains questions and answers</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="When User wants to delete the question that dont exist">
+<kw name="Delete Question" library="QuizApp">
+<var>${del_question}</var>
+<arg>${invalid_question}</arg>
+<msg timestamp="20231005 14:44:37.887" level="INFO">${del_question} = {'What is Your name ?': 'Gunaseelan', 'What is Your Age ?': '25', 'What is Your Qualificaiton ?': 'BE', 'How Many years of Experience do you have ?': '2 years', 'What is Your Role ? ': 'Automation Eng...</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>User tries to delete the invalid question</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<kw name="Then Verify the question cannot be deleted">
+<kw name="Log" library="BuiltIn">
+<arg>Question ${invalid_question}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231005 14:44:37.887" level="INFO">Question Who are you</msg>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</kw>
+<status status="PASS" starttime="20231005 14:44:37.887" endtime="20231005 14:44:37.887"/>
+</test>
+<doc>Automated tests for the Quiz App</doc>
+<status status="PASS" starttime="20231005 14:44:37.818" endtime="20231005 14:44:37.887"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="5" fail="0" skip="0" id="s1" name="Game">Game</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

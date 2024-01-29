@@ -1,0 +1,1207 @@
+{
+	"info": {
+		"_postman_id": "04bf1230-6d7c-49fe-8723-5480a39cd380",
+		"name": "STORY_V2_CHIME_DEMO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20200929"
+	},
+	"item": [
+		{
+			"name": "JAYU-3162_Ability to retrieve unique patient resource",
+			"item": [
+				{
+					"name": "S1:Patient_exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var token = pm.request.auth.oauth2.get('accessToken');\r",
+									"pm.environment.set(\"TOKEN\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientId",
+									"value": "0oa2heh6h71Voa99n697",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://dsep-dev.okta.com/oauth2/aus2hembhmp11jQlH697/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://dsep-dev.okta.com/oauth2/aus2hembhmp11jQlH697/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "somestate",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "tokenName",
+									"value": "OKTA",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "hsdi",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://localhost:3000",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/organizations/85c85914-7f3b-48b5-af3c-bfaf6f4fd439/mrn/7899877",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"organizations",
+								"85c85914-7f3b-48b5-af3c-bfaf6f4fd439",
+								"mrn",
+								"7899877"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2:Patient_doesnot_exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var token = pm.request.auth.oauth2.get('accessToken');\r",
+									"pm.environment.set(\"V2B_VELYS_TOKEN\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/organizations/85c85914-7f3b-48b5-af3c-bfaf6f4fd439/mrn/789987",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"organizations",
+								"85c85914-7f3b-48b5-af3c-bfaf6f4fd439",
+								"mrn",
+								"789987"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S3:Missing_MRN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var token = pm.request.auth.oauth2.get('accessToken');\r",
+									"pm.environment.set(\"V2B_VELYS_TOKEN\", token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/organizations/85c85914-7f3b-48b5-af3c-bfaf6f4fd439/mrn/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"organizations",
+								"85c85914-7f3b-48b5-af3c-bfaf6f4fd439",
+								"mrn",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3169_Ability to retrieve Practitioner data",
+			"item": [
+				{
+					"name": "S1.1:Practitioner_with_valid_NPI",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/npi/id-value/669956566",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"npi",
+								"id-value",
+								"669956566"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.2:Practitioner_with_valid_DSP_ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/05e370f6-bb4e-4422-ac83-6c02b2bf0a73",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"05e370f6-bb4e-4422-ac83-6c02b2bf0a73"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.3:Practitioner_with_valid_First_name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/first_name/id-value/Thomas",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"first_name",
+								"id-value",
+								"Thomas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.4:Practitioner_with_valid_Last_name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/last_name/id-value/Nikolas",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"last_name",
+								"id-value",
+								"Nikolas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.1:Practitioner_with_invalid_NPI",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/npi/id-value/6699565",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"npi",
+								"id-value",
+								"6699565"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.2:Practitioner_with_invalid_DSP_ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/05e370f6-bb4e-4422-ac83-6c02b2bf0a",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"05e370f6-bb4e-4422-ac83-6c02b2bf0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.3:Practitioner_with_invalid_First_name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/first_name/id-value/Richar",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"first_name",
+								"id-value",
+								"Richar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.4:Practitioner_with_invalid_Last_name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/id-key/last_name/id-value/Georg",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"id-key",
+								"last_name",
+								"id-value",
+								"Georg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S3:Practitioner_with_blank_parameters",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3349_Ability to get list of Patient(s) associated with one specific practitioner",
+			"item": [
+				{
+					"name": "S1.1:Patient_existing",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/89913d32-058a-457c-81ee-b58ff78782d9/patients",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"89913d32-058a-457c-81ee-b58ff78782d9",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.2:Patient_doesnot_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/0dab0267-cf46-46bb-ba2e-18f743f7b23e/patients",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"0dab0267-cf46-46bb-ba2e-18f743f7b23e",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3354_Ability to get list of Organizations associated with one specific Practitioner",
+			"item": [
+				{
+					"name": "S1:Practitioner_existing",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/89913d32-058a-457c-81ee-b58ff78782d9/organizations",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"89913d32-058a-457c-81ee-b58ff78782d9",
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2:Practitioner_doesnot_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/89913d32-058a-457c-81ee-b58ff78782/organizations",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"89913d32-058a-457c-81ee-b58ff78782",
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3355_Ability to generate DSP identifier at each patient resource level",
+			"item": [
+				{
+					"name": "S1.1:Patient_resource_ingest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Patient\",\r\n  \"identifier\": [\r\n    {\r\n      \"use\": \"usual\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n            \"code\": \"MR\",\r\n            \"display\": \"Medical record number\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"urn:oid:1.2.34.5\",\r\n      \"value\": \"7899877908\",\r\n      \"assigner\": {\r\n        \"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n      }\r\n    }\r\n  ],\r\n  \"active\": true,\r\n  \"name\": [\r\n    {\r\n      \"use\": \"official\",\r\n      \"family\": \"black\",\r\n      \"given\": [\r\n        \"warren\"\r\n      ]\r\n    }\r\n  ],\r\n  \"birthDate\": \"2003-05-13\",\r\n  \"generalPractitioner\": [\r\n    {\r\n      \"reference\": \"Practitioner/70925ab4-343a-4732-a3bf-5a424ca8018c\",\r\n      \"display\": \"Dr Adam Careful\"\r\n    }\r\n  ],\r\n  \"managingOrganization\": {\r\n    \"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.2:Fetch_Patient_resource",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/6a0c4388-85c8-4178-8f42-ee41b0fd90a3",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"6a0c4388-85c8-4178-8f42-ee41b0fd90a3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3357_Ability to retrieve Patient clinical data using Name and Date of Birth",
+			"item": [
+				{
+					"name": "S1.1:Patient_fetch_using_valid_firstname",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/first_name/id-value/benny",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"first_name",
+								"id-value",
+								"benny"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.2:Patient_fetch_using_valid_lastname",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/last_name/id-value/buffet",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"last_name",
+								"id-value",
+								"buffet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S1.3:Patient_fetch_using_valid_date_of_birth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/birth_date/id-value/2001-12-06",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"birth_date",
+								"id-value",
+								"2001-12-06"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.1:Patient_fetch_using_invalid_firstname",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/first_name/id-value/ben",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"first_name",
+								"id-value",
+								"ben"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.2:Patient_fetch_using_invalid_lastname",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/last_name/id-value/buff",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"last_name",
+								"id-value",
+								"buff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2.3:Patient_fetch_using_invalid_date_of_birth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/id-key/birth_date/id-value/2001-12-08",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"id-key",
+								"birth_date",
+								"id-value",
+								"2001-12-08"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3641_Ability to consume Patient data record",
+			"item": [
+				{
+					"name": "S1:Patient_doesnot_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Patient\",\r\n  \"identifier\": [\r\n    {\r\n      \"use\": \"usual\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n            \"code\": \"MR\",\r\n            \"display\": \"Medical record number\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"urn:oid:1.2.34.5\",\r\n      \"value\": \"789987790865\",\r\n      \"assigner\": {\r\n        \"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n      }\r\n    }\r\n  ],\r\n  \"active\": true,\r\n  \"name\": [\r\n    {\r\n      \"use\": \"official\",\r\n      \"family\": \"black\",\r\n      \"given\": [\r\n        \"warren\"\r\n      ]\r\n    }\r\n  ],\r\n  \"birthDate\": \"2003-05-13\",\r\n  \"generalPractitioner\": [\r\n    {\r\n      \"reference\": \"Practitioner/89913d32-058a-457c-81ee-b58ff78782d9\",\r\n      \"display\": \"Dr Adam Careful\"\r\n    }\r\n  ],\r\n  \"managingOrganization\": {\r\n    \"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2:Patient_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"resourceType\": \"Patient\",\r\n\t\"identifier\": [\r\n\t\t{\r\n\t\t\t\"type\": {\r\n\t\t\t\t\"text\": \"DSP_Patient_ID\",\r\n\t\t\t\t\"coding\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"code\": \"DSPPATID\",\r\n\t\t\t\t\t\t\"display\": \"DSP_Patient_ID\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t\"value\": \"ad7b27d9-ed99-4702-8292-6c5a73774fb0\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"use\": \"usual\",\r\n\t\t\t\"type\": {\r\n\t\t\t\t\"coding\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\r\n\t\t\t\t\t\t\"code\": \"MR\",\r\n\t\t\t\t\t\t\"display\": \"Medical record number\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t\"system\": \"urn:oid:1.2.34.5\",\r\n\t\t\t\"value\": \"7899877\",\r\n\t\t\t\"assigner\": {\r\n\t\t\t\t\"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n\t\t\t}\r\n\t\t}\r\n\t],\r\n\t\"active\": true,\r\n\t\"name\": [\r\n\t\t{\r\n\t\t\t\"use\": \"official\",\r\n\t\t\t\"family\": \"black\",\r\n\t\t\t\"given\": [\r\n\t\t\t\t\"warren\"\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"birthDate\": \"2003-05-13\",\r\n\t\"generalPractitioner\": [\r\n\t\t{\r\n\t\t\t\"reference\": \"Practitioner/70925ab4-343a-4732-a3bf-5a424ca8018c\",\r\n\t\t\t\"display\": \"Dr Adam Careful\"\r\n\t\t}\r\n\t],\r\n\t\"managingOrganization\": {\r\n\t\t\"reference\": \"Organization/85c85914-7f3b-48b5-af3c-bfaf6f4fd439\"\r\n\t},\r\n\t\"id\": \"ad7b27d9-ed99-4702-8292-6c5a73774fb0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/patients/v2/ad7b27d9-ed99-4702-8292-6c5a73774fb0",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"patients",
+								"v2",
+								"ad7b27d9-ed99-4702-8292-6c5a73774fb0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JAYU-3642_Ability to consume Practitioner data record",
+			"item": [
+				{
+					"name": "S1:Practitioner_doesnot_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Practitioner\",\r\n  \"identifier\": [\r\n    {\r\n      \"system\": \"http://hl7.org/fhir/sid/us-npi\",\r\n      \"value\": \"989896883214\"\r\n    },\r\n    {\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://hl7.org/fhir/v2/0203\",\r\n            \"code\": \"NPI\",\r\n            \"display\": \"National Provider Identifier\"\r\n          }\r\n        ],\r\n        \"text\": \"National Provider Identifier\"\r\n      },\r\n      \"system\": \"https://npiregistry.cms.hhs.gov/\",\r\n      \"value\": \"66932323\"\r\n    }\r\n  ],\r\n  \"active\": true,\r\n  \"name\": [\r\n    {\r\n      \"use\": \"official\",\r\n      \"family\": \"Grante\",\r\n      \"given\": [\r\n        \"Pat\"\r\n      ]\r\n    }\r\n  ],\r\n  \"telecom\": [\r\n    {\r\n      \"system\": \"phone\",\r\n      \"value\": \"+16085551234\",\r\n      \"use\": \"work\"\r\n    }\r\n  ],\r\n  \"address\": [\r\n    {\r\n      \"line\": [\r\n        \"123 Main St.\"\r\n      ],\r\n      \"city\": \"Madison\",\r\n      \"district\": \"Dane\",\r\n      \"state\": \"WI\",\r\n      \"postalCode\": \"53703\",\r\n      \"country\": \"USA\"\r\n    }\r\n  ],\r\n  \"qualification\": [\r\n    {\r\n      \"code\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0360\",\r\n            \"code\": \"MD\",\r\n            \"display\": \"Doctor of Medicine\"\r\n          }\r\n        ],\r\n        \"text\": \"MD\"\r\n      }\r\n    }\r\n  ],\r\n  \"organization\": [\r\n    {\r\n      \"reference\": \"Organization/977e0319-32d8-4dba-b2bf-18ecbd537bfd\",\r\n      \"name\": \"Orhto Health\"\r\n    },\r\n    {\r\n      \"reference\": \"Organization/ae280394-2984-49bd-86fd-9d9de3fd0bad\",\r\n      \"name\": \"Vision Health\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S2:Practitioner_exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"resourceType\": \"Practitioner\",\r\n\t\"identifier\": [\r\n\t\t{\r\n\t\t\t\"type\": {\r\n\t\t\t\t\"text\": \"DSP_Practitioner_ID\",\r\n\t\t\t\t\"coding\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"code\": \"DSPPRACID\",\r\n\t\t\t\t\t\t\"display\": \"DSP_Practitioner_ID\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t\"value\": \"5ee3c765-fd92-491d-a8f3-27f4ec84a9f3\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"system\": \"http://hl7.org/fhir/sid/us-npi\",\r\n\t\t\t\"value\": \"989896883214\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"type\": {\r\n\t\t\t\t\"coding\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"system\": \"http://hl7.org/fhir/v2/0203\",\r\n\t\t\t\t\t\t\"code\": \"NPI\",\r\n\t\t\t\t\t\t\"display\": \"National Provider Identifier\"\r\n\t\t\t\t\t}\r\n\t\t\t\t],\r\n\t\t\t\t\"text\": \"National Provider Identifier\"\r\n\t\t\t},\r\n\t\t\t\"system\": \"https://npiregistry.cms.hhs.gov/\",\r\n\t\t\t\"value\": \"8897793\"\r\n\t\t}\r\n\t],\r\n\t\"active\": true,\r\n\t\"name\": [\r\n\t\t{\r\n\t\t\t\"use\": \"official\",\r\n\t\t\t\"family\": \"Granite\",\r\n\t\t\t\"given\": [\r\n\t\t\t\t\"Pat\"\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"telecom\": [\r\n\t\t{\r\n\t\t\t\"system\": \"phone\",\r\n\t\t\t\"value\": \"+16085551234\",\r\n\t\t\t\"use\": \"work\"\r\n\t\t}\r\n\t],\r\n\t\"address\": [\r\n\t\t{\r\n\t\t\t\"line\": [\r\n\t\t\t\t\"123 Main St.\"\r\n\t\t\t],\r\n\t\t\t\"city\": \"Madison\",\r\n\t\t\t\"district\": \"Dane\",\r\n\t\t\t\"state\": \"WI\",\r\n\t\t\t\"postalCode\": \"53703\",\r\n\t\t\t\"country\": \"USA\"\r\n\t\t}\r\n\t],\r\n\t\"qualification\": [\r\n\t\t{\r\n\t\t\t\"code\": {\r\n\t\t\t\t\"coding\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0360\",\r\n\t\t\t\t\t\t\"code\": \"MD\",\r\n\t\t\t\t\t\t\"display\": \"Doctor of Medicine\"\r\n\t\t\t\t\t}\r\n\t\t\t\t],\r\n\t\t\t\t\"text\": \"MD\"\r\n\t\t\t}\r\n\t\t}\r\n\t],\r\n\t\"organization\": [\r\n\t\t{\r\n\t\t\t\"reference\": \"Organization/977e0319-32d8-4dba-b2bf-18ecbd537bfd\",\r\n\t\t\t\"name\": \"Orhto Health\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"reference\": \"Organization/ae280394-2984-49bd-86fd-9d9de3fd0bad\",\r\n\t\t\t\"name\": \"Vision Health\"\r\n\t\t}\r\n\t],\r\n\t\"id\": \"5ee3c765-fd92-491d-a8f3-27f4ec84a9f3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.api.digitalsurgery.cloud/dsp/api/practitioners/v2/5ee3c765-fd92-491d-a8f3-27f4ec84a9f3",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"api",
+								"digitalsurgery",
+								"cloud"
+							],
+							"path": [
+								"dsp",
+								"api",
+								"practitioners",
+								"v2",
+								"5ee3c765-fd92-491d-a8f3-27f4ec84a9f3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

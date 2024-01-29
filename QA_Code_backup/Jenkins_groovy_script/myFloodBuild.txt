@@ -1,0 +1,18 @@
+curl "https://api.flood.io/api/floods" \
+ -H "Accept: application/vnd.flood.v2+json" \
+ -u "flood_live_abc1de90542075f8cce8fc2c10409e557f09212e2c:x" \
+ -F "flood[tool]=jmeter" \
+ -F "flood[threads]=6" \
+ -F "flood[rampup]=0" \
+ -F "flood[duration]=300" \
+ -F "flood[privacy]=public" \
+ -F "flood[name]=30thsec_org_tel_alias 1" \
+ -F "flood_files[]=@Script.jmx" \
+ -F "flood[grids][][infrastructure]=demand" \
+ -F "flood[grids][][instance_quantity]=1" \
+ -F "flood[grids][][instance_type]=m5.xlarge" \
+ -F "flood[grids][][region]=us-east-1" \
+ -F "flood[grids][][stop_after]=60"
+ 
+ 
+ 

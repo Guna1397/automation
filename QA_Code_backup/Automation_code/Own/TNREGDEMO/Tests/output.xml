@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0 (Python 3.10.7 on win32)" generated="20230301 13:23:56.938" rpa="false" schemaversion="3">
+<suite id="s1" name="Registration" source="C:\Users\Johnbabu\Documents\Auto\TNREGDEMO\Tests\Registration.robot">
+<test id="s1-t1" name="Access the Home page" line="15">
+<kw name="Begin Test" library="Common">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>about:blank</arg>
+<arg>${BROWSER}</arg>
+<arg>options=add_argument("--ignore-certificate-errors")</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20230301 13:23:57.454" level="INFO">Opening browser 'chrome' to base url 'about:blank'.</msg>
+<msg timestamp="20230301 13:24:01.251" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<msg timestamp="20230301 13:24:01.251" level="FAIL">SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 107
+Current browser version is 110.0.5481.178 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x011FACD3+2075859]
+	Ordinal0 [0x0118EE61+1633889]
+	Ordinal0 [0x0108B7BD+571325]
+	Ordinal0 [0x010ADFCD+712653]
+	Ordinal0 [0x010A9266+692838]
+	Ordinal0 [0x010A6BE9+682985]
+	Ordinal0 [0x010DDBD3+908243]
+	Ordinal0 [0x010DD6AA+906922]
+	Ordinal0 [0x010D7136+880950]
+	Ordinal0 [0x010AFEFD+720637]
+	Ordinal0 [0x010B0F3F+724799]
+	GetHandleVerifier [0x014AEED2+2769538]
+	GetHandleVerifier [0x014A0D95+2711877]
+	GetHandleVerifier [0x0128A03A+521194]
+	GetHandleVerifier [0x01288DA0+516432]
+	Ordinal0 [0x0119682C+1665068]
+	Ordinal0 [0x0119B128+1683752]
+	Ordinal0 [0x0119B215+1683989]
+	Ordinal0 [0x011A6484+1729668]
+	BaseThreadInitThunk [0x76B06BD9+25]
+	RtlGetFullPathName_UEx [0x77BD8FD2+1218]
+	RtlGetFullPathName_UEx [0x77BD8F9D+1165]
+</msg>
+<status status="FAIL" starttime="20230301 13:23:57.454" endtime="20230301 13:24:01.299"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.299" endtime="20230301 13:24:01.299"/>
+</kw>
+<status status="FAIL" starttime="20230301 13:23:57.454" endtime="20230301 13:24:01.315"/>
+</kw>
+<kw name="Goto landingpage" library="Registration_App">
+<status status="NOT RUN" starttime="20230301 13:24:01.315" endtime="20230301 13:24:01.315"/>
+</kw>
+<doc>Test1</doc>
+<tag>smoke</tag>
+<status status="FAIL" starttime="20230301 13:23:57.454" endtime="20230301 13:24:01.315">SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 107
+Current browser version is 110.0.5481.178 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x011FACD3+2075859]
+	Ordinal0 [0x0118EE61+1633889]
+	Ordinal0 [0x0108B7BD+571325]
+	Ordinal0 [0x010ADFCD+712653]
+	Ordinal0 [0x010A9266+692838]
+	Ordinal0 [0x010A6BE9+682985]
+	Ordinal0 [0x010DDBD3+908243]
+	Ordinal0 [0x010DD6AA+906922]
+	Ordinal0 [0x010D7136+880950]
+	Ordinal0 [0x010AFEFD+720637]
+	Ordinal0 [0x010B0F3F+724799]
+	GetHandleVerifier [0x014AEED2+2769538]
+	GetHandleVerifier [0x014A0D95+2711877]
+	GetHandleVerifier [0x0128A03A+521194]
+	GetHandleVerifier [0x01288DA0+516432]
+	Ordinal0 [0x0119682C+1665068]
+	Ordinal0 [0x0119B128+1683752]
+	Ordinal0 [0x0119B215+1683989]
+	Ordinal0 [0x011A6484+1729668]
+	BaseThreadInitThunk [0x76B06BD9+25]
+	RtlGetFullPathName_UEx [0x77BD8FD2+1218]
+	RtlGetFullPathName_UEx [0x77BD8F9D+1165]
+</status>
+</test>
+<test id="s1-t2" name="Access E-services Page" line="21">
+<kw name="Goto Eservices page" library="Registration_App">
+<kw name="Select eservicespage" library="TopNav">
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=//*[@id="8500009"]/a</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230301 13:24:01.320" level="INFO">Clicking element 'xpath=//*[@id="8500009"]/a'.</msg>
+<msg timestamp="20230301 13:24:01.320" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<msg timestamp="20230301 13:24:01.320" level="FAIL">No browser is open.</msg>
+<status status="FAIL" starttime="20230301 13:24:01.320" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=//*[@id="8400001"]/a</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=//*[@id="8400010"]/a</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<status status="FAIL" starttime="20230301 13:24:01.320" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="verify page loaded" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<kw name="validation" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.337"/>
+</kw>
+<status status="FAIL" starttime="20230301 13:24:01.319" endtime="20230301 13:24:01.337"/>
+</kw>
+<doc>Test2</doc>
+<tag>smoke</tag>
+<status status="FAIL" starttime="20230301 13:24:01.315" endtime="20230301 13:24:01.337">No browser is open.</status>
+</test>
+<test id="s1-t3" name="Autofill Eservices Page" line="27">
+<kw name="Fill Eservices Page" library="Registration_App">
+<kw name="Select Zone" library="EservicesPage">
+<kw name="Select From List By Label" library="SeleniumLibrary">
+<arg>id=cmb_Zone</arg>
+<arg>Chennai</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20230301 13:24:01.337" level="INFO">Selecting options from selection list 'id=cmb_Zone' by label Chennai.</msg>
+<msg timestamp="20230301 13:24:01.337" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<msg timestamp="20230301 13:24:01.337" level="FAIL">No browser is open.</msg>
+<status status="FAIL" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.352"/>
+</kw>
+<status status="FAIL" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.352"/>
+</kw>
+<kw name="Select District" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.352" endtime="20230301 13:24:01.352"/>
+</kw>
+<kw name="Select SubRegistrarOffice" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.352" endtime="20230301 13:24:01.352"/>
+</kw>
+<kw name="Select EC Details" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.352" endtime="20230301 13:24:01.352"/>
+</kw>
+<kw name="Select Survey Details" library="EservicesPage">
+<status status="NOT RUN" starttime="20230301 13:24:01.352" endtime="20230301 13:24:01.352"/>
+</kw>
+<status status="FAIL" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.352"/>
+</kw>
+<doc>Test3</doc>
+<tag>smoke</tag>
+<status status="FAIL" starttime="20230301 13:24:01.337" endtime="20230301 13:24:01.352">No browser is open.</status>
+</test>
+<status status="FAIL" starttime="20230301 13:23:56.938" endtime="20230301 13:24:01.352"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="3" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="3" skip="0">smoke</stat>
+</tag>
+<suite>
+<stat pass="0" fail="3" skip="0" id="s1" name="Registration">Registration</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,0 +1,58 @@
+
+*** Test Cases ***
+# Scenario 1: User wants to display the question
+    Given The user access the question
+    When User wants to display the questions
+    Then Verify the questions display
+
+# Scenario 2: User wants to add and display the added question
+    Given The user wants to add a question
+    When User wants to display the question added
+    Then Verify the question added
+	
+#Scenario 3: User wants to delete the question
+    Given The user access the question
+    When User wants to delete the question
+    Then Verify the question deleted
+	
+# Scenario 4 : User tires to enter invalid choice
+    Given user enters the invalid choice
+    When User should not get any choice
+    Then Verify the error message
+	
+#Scenario 5 : User wants to delete the question that doesnt exist
+    Given The user access the question
+    When User wants to delete the question that dont exist
+    Then Verify the question cannot be deleted
+	
+# Scenario 6: Starting a Quiz Game
+    Given the user is on the quiz application homepage
+    And there are questions available in the quiz application
+    When the user starts a quiz game
+    Then the user should be presented with quiz questions and get a score at the end
+
+# Scenario 7: Attempting a Quiz Question
+    Given the user is on the quiz application homepage
+    And there are questions available in the quiz application
+    And the user starts a quiz game
+    When the user answers a quiz question incorrectly
+    Then the user's score should decrease by 1
+
+# Scenario 8: Attempting All Quiz Questions Correctly
+    Given the user is on the quiz application homepage
+    And there are questions available in the quiz application
+    And the user starts a quiz game
+    When the user answers all quiz questions correctly
+    Then the user should have a perfect score
+
+# Scenario 9: Attempting a Quiz with No Questions
+    Given the user is on the quiz application homepage
+    And there are no questions available in the quiz application
+    When the user starts a quiz game
+    Then the user should see a message "No questions available."
+
+# Scenario 10: Quitting the Quiz Application
+    Given the user is on the quiz application homepage
+    When the user chooses to quit the application
+    Then the application should exit gracefully
+
